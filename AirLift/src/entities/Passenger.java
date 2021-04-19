@@ -44,6 +44,7 @@ public class Passenger extends Thread
       this.passengerId = passengerId;
       passengerState = PassengerStates.GOINGTOAIRPORT;
       this.departAirport = departAirport;
+      System.out.println("Passenger " + passengerId + " created");
    }
 
   /**
@@ -97,11 +98,11 @@ public class Passenger extends Thread
    @Override
    public void run ()
    {
-	   
-	   travelToAirport();
-
-	   while(!departAirport.waitInQueue()) 
-		   showDocuments();
+	   return;
+//	   travelToAirport();
+//
+//	   while(!departAirport.waitInQueue()) 
+//		   showDocuments();
 		   
    }
 

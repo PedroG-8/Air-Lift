@@ -11,11 +11,6 @@ package entities;
 
 public class Hostess extends Thread
 {
-  /**
-   *  Barber identification.
-   */
-
-   private int hostessId;
 
   /**
    *  Barber state.
@@ -37,35 +32,15 @@ public class Hostess extends Thread
    *     @param bShop reference to the barber shop
    */
 
-   public Hostess (String name, int hostessId, DepartureAirport departAirport)
+   public Hostess (String name, DepartureAirport departAirport)
    {
       super (name);
-      this.hostessId = hostessId;
       hostessState = HostessStates.WAITFORFLIGHT;
       this.departAirport = departAirport;
+      System.out.println("Hostess created");
    }
 
-  /**
-   *   Set barber id.
-   *
-   *     @param id barber id
-   */
-
-   public void setHostessId (int id)
-   {
-      hostessId = id;
-   }
-
-  /**
-   *   Get barber id.
-   *
-   *     @return barber id
-   */
-
-   public int getHostessId ()
-   {
-      return hostessId;
-   }
+  
 
   /**
    *   Set barber state.
@@ -92,6 +67,27 @@ public class Hostess extends Thread
   /**
    *   Life cycle of the barber.
    */
+   
+   
+   
+   
+   @Override
+   public void run() {
+	   return;
+//	   prepareForPassBoarding();
+	   // LOOP {
+	   // Passa ao estado WAITFORPASSENGER
+	   // dorme ate haver um passageiro na queue
+//	   checkDocuments();
+	   // Passa ao estado CHECKPASSENGER
+	   // checka os documentos 
+	   // waitForNextPassenger();
+	   
+	   // if(!passageirosNaFila ou max) break
+	   // }
+//	   informPlaneReadyToTakeOff();
+	   // Passa ao estado READYTOFLY
+   }
 
 //   @Override
 //   public void run ()
