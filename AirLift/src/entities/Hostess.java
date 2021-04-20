@@ -1,6 +1,7 @@
 package entities;
 
- import sharedRegions.DepartureAirport;
+ import genclass.GenericIO;
+import sharedRegions.DepartureAirport;
 
 /**
  *   Barber thread.
@@ -37,7 +38,6 @@ public class Hostess extends Thread
       super (name);
       hostessState = HostessStates.WAITFORFLIGHT;
       this.departAirport = departAirport;
-      System.out.println("Hostess created");
    }
 
   
@@ -69,10 +69,12 @@ public class Hostess extends Thread
    */
    
    
-   
-   
    @Override
    public void run() {
+	   
+	   GenericIO.writelnString("Hostess created");
+	   departAirport.prepareForPassBoarding();
+	   departAirport.checkDocuments();
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {

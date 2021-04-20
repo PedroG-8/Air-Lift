@@ -23,12 +23,15 @@ public class Test {
 
 	      GenericIO.writelnString ("\n" + "      Air Lift\n");
 	      do
-	      { GenericIO.writeString ("Logging file name? ");
-	        fileName = GenericIO.readlnString ();
+	      { 
+	    	  GenericIO.writeString ("Logging file name? ");
+//	        	fileName = GenericIO.readlnString ();
+	    	  fileName = "logg";
 	        if (FileOp.exists (".", fileName))
 	           { do
 	             { GenericIO.writeString ("There is already a file with this name. Delete it (y - yes; n - no)? ");
-	               opt = GenericIO.readlnChar ();
+//	               opt = GenericIO.readlnChar ();
+	             	opt = 'y';
 	             } while ((opt != 'y') && (opt != 'n'));
 	             if (opt == 'y')
 	                success = true;
@@ -62,17 +65,17 @@ public class Test {
 
 	     /* waiting for the end of the simulation */
 	      
-	      GenericIO.writelnString ();
+//	      GenericIO.writelnString ();
 	      
 	      try {
 	    	  pilot.join();
 	      } catch(InterruptedException e) {}
-	      GenericIO.writelnString ("The pilot has terminated.");
+//	      GenericIO.writelnString ("The pilot has terminated.");
 	           
 	      try {
 	    	  hostess.join();
 	      } catch(InterruptedException e) {}
-	      GenericIO.writelnString ("The hostess has terminated.");
+//	      GenericIO.writelnString ("The hostess has terminated.");
 	      
 	      
 	      for (int i = 0; i < SimulPar.K; i++)
@@ -80,8 +83,8 @@ public class Test {
 	        { passenger[i].join ();
 	        }
 	        catch (InterruptedException e) {}
-	        GenericIO.writelnString ("The passenger " + i + " has terminated.");
+//	        GenericIO.writelnString ("The passenger " + i + " has terminated.");
 	      }
-	      GenericIO.writelnString ();
+//	      GenericIO.writelnString ();
     }
 }

@@ -166,20 +166,20 @@ public class GeneralRepos {
 	       switch (pilotState[0])
 	         { case PilotStates.ATTRANSFERGATE:  lineStatus += "ATRG ";
 	                                              break;
-	           case PilotStates.READYFORBOARDING: lineStatus += " RDFB ";
+	           case PilotStates.READYFORBOARDING: lineStatus += "RDFB ";
 	                                              break;
-	           case PilotStates.WAITINGFORBOARDING:      lineStatus += " WTFB ";
+	           case PilotStates.WAITINGFORBOARDING:      lineStatus += "WTFB ";
 	                                              break;
-	           case PilotStates.FLYINGFORWARD:    lineStatus += " FLFW ";
+	           case PilotStates.FLYINGFORWARD:    lineStatus += "FLFW ";
 	                                              break;
-	           case PilotStates.DEBOARDING:      lineStatus += " DRPP ";
+	           case PilotStates.DEBOARDING:      lineStatus += "DRPP ";
                									  break;
-	           case PilotStates.FLYINGBACK:    lineStatus += " FLBK ";
+	           case PilotStates.FLYINGBACK:    lineStatus += "FLBK ";
                								      break;
 	         }
 	       
 	       switch (hostessState[0])
-	         { case HostessStates.WAITFORFLIGHT:  lineStatus += "WTFL ";
+	         { case HostessStates.WAITFORFLIGHT:  lineStatus += " WTFL ";
 	                                              break;
 	           case HostessStates.WAITFORPASSENGER: lineStatus += " WTPS ";
 	                                              break;
@@ -201,6 +201,8 @@ public class GeneralRepos {
 	           case PassengerStates.ATDESTINATION: 	lineStatus += " ATDS ";
 					break;
 	         }
+	       
+	       
 	         
 	       log.writelnString (lineStatus);
 	       if (!log.close ())

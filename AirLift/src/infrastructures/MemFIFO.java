@@ -97,4 +97,9 @@ public class MemFIFO<R> extends MemObject<R>
    {
      return !((inPnt != outPnt) || empty);
    }
+   
+   public boolean isEmpty ()
+   {
+     return empty;
+   }
 }

@@ -73,6 +73,9 @@ public class Pilot extends Thread
    
    @Override
    public void run() {
+	   
+	   waitAbit();
+	   departAirport.informPlaneReadyForBoarding();
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {
@@ -110,7 +113,7 @@ public class Pilot extends Thread
    *  Internal operation.
    */
 
-   private void checkDocuments()
+   private void waitAbit()
    {
       try
       { sleep ((long) (1 + 100 * Math.random ()));

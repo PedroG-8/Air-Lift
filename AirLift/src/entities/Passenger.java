@@ -1,5 +1,6 @@
 package entities;
 
+import genclass.GenericIO;
 import sharedRegions.DepartureAirport;
 
 /**
@@ -44,7 +45,7 @@ public class Passenger extends Thread
       this.passengerId = passengerId;
       passengerState = PassengerStates.GOINGTOAIRPORT;
       this.departAirport = departAirport;
-      System.out.println("Passenger " + passengerId + " created");
+//      System.out.println("Passenger " + passengerId + " created");
    }
 
   /**
@@ -98,6 +99,9 @@ public class Passenger extends Thread
    @Override
    public void run ()
    {
+	   travelToAirport();
+	   departAirport.waitInQueue();
+	   showDocuments();
 	   return;
 //	   travelToAirport();
 //
@@ -115,9 +119,11 @@ public class Passenger extends Thread
    private void travelToAirport()
    {
       try
-      { sleep ((long) (1 + 40 * Math.random ()));
+      { 
+    	  sleep ((long) (1 + 500 * Math.random ()));
       }
       catch (InterruptedException e) {}
+      GenericIO.writelnString("Passenger " + passengerId + " is in the airport!");
    }
 
   /**
@@ -129,7 +135,9 @@ public class Passenger extends Thread
    private void showDocuments()
    {
       try
-      { sleep ((long) (1 + 10 * Math.random ()));
+      { 
+    	  GenericIO.writelnString("Showing documents");
+    	  sleep ((long) (1 + 20 * Math.random ()));
       }
       catch (InterruptedException e) {}
    }
