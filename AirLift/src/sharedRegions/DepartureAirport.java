@@ -28,8 +28,11 @@ public class DepartureAirport {
     private final GeneralRepos repos;
     
     private MemFIFO<Integer> inQueue;
+    private MemFIFO<Integer> inAirport;
    
     private boolean [] documentsShowed = new boolean[SimulPar.K];
+    
+//    private int [] passengersInAirport = new int[SimulPar.K];
     
     private int passengersOnPlane = 0;
     private int remainingPassengers = SimulPar.K;
@@ -50,6 +53,7 @@ public class DepartureAirport {
 		  passenger[i] = null;
 	  try
       { 
+		  inAirport = new MemFIFO<> (new Integer [SimulPar.K]);
 		  inQueue = new MemFIFO<> (new Integer [SimulPar.K]);
       } catch (MemException e)
       { 	
@@ -101,9 +105,16 @@ public class DepartureAirport {
 			
 	  int passengerId;                                      // passenger id
 
-      passengerId = ((Passenger) Thread.currentThread()).getPassengerId ();
+	  passengerId = ((Passenger) Thread.currentThread()).getPassengerId ();
       
       passenger[passengerId] = (Passenger) Thread.currentThread();
+      
+      try {
+    	  inAirport.write(passengerId);
+      } catch (MemException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+      }
       
       // Hostess is waiting for the pilot info
       while (!passBoarding)
@@ -116,8 +127,10 @@ public class DepartureAirport {
 	        catch (InterruptedException e) {}
 		}
       
+      
       try
       { 
+    	  passengerId = inAirport.read();
     	  GenericIO.writelnString("Passenger " + passengerId + " added to queue");
     	  inQueue.write(passengerId);                    // the passenger enters the Queue
     	  nQueue++;
@@ -132,8 +145,8 @@ public class DepartureAirport {
 //      passenger[passengerId].setPassengerState(PassengerStates.INQUEUE);
 //      repos.setPassengerState (passengerId, passenger[passengerId].getPassengerState ());
       
+      
       notifyAll ();
-
 
       while (!headOfQueue)
       { 
@@ -166,6 +179,7 @@ public class DepartureAirport {
 					GenericIO.writelnString("Plane ready to take off!!!");
 					((Hostess) Thread.currentThread()).setHostessState(HostessStates.READYTOFLY);
 					repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
+					System.exit(0);
 					readyToTakeOff = true;
 					return -1;
 				}
@@ -196,13 +210,23 @@ public class DepartureAirport {
 	
 	public synchronized boolean showDocuments() {
 		
-		
-		
 		int passengerId;
 		
 		passengerId = ((Passenger) Thread.currentThread()).getPassengerId ();
 	      
-	    passenger[passengerId] = (Passenger) Thread.currentThread();	    
+	    passenger[passengerId] = (Passenger) Thread.currentThread();
+	    
+//	    GenericIO.writelnString("Stuck in the while " + passengerId);
+//		while (actualId != passengerId)
+//		{ 
+//			try
+//			{ 
+//				wait ();
+//			}
+//			catch (InterruptedException e) {}
+//		}
+		
+			    
 	    
 	    passenger[passengerId].setPassengerState(PassengerStates.INQUEUE);
 	    
