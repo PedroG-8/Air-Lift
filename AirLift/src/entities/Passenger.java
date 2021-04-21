@@ -102,6 +102,7 @@ public class Passenger extends Thread
 	   travelToAirport();
 	   departAirport.waitInQueue();
 	   departAirport.showDocuments();
+	   
 	   return;
 //	   travelToAirport();
 //

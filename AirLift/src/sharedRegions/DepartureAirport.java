@@ -33,13 +33,12 @@ public class DepartureAirport {
     
     private int passengersOnPlane = 0;
     private int remainingPassengers = SimulPar.K;
-    
+    private int actualId = -1;
     
     private boolean passBoarding = false;
     private boolean headOfQueue = false;
    
     private boolean readyToTakeOff = false;
-    private boolean goToFlight = false;
     private boolean readyForBoarding = false;
 	
 	public DepartureAirport(GeneralRepos repos)
@@ -176,18 +175,20 @@ public class DepartureAirport {
 			}
 		}
 		
-		
+		headOfQueue = true;
 		nQueue -= 1;
 		int passengerId = -1;
 		try {
 			passengerId = inQueue.read();
+			actualId = passengerId;
 			
 		} catch (MemException e) {
 			e.printStackTrace();
 		}
 		
+		notifyAll();
 		GenericIO.writelnString("Waiting for passenger " + passengerId);
-		headOfQueue = true;
+		
 		
 		
 		return passengerId;
@@ -195,11 +196,14 @@ public class DepartureAirport {
 	
 	public synchronized boolean showDocuments() {
 		
+		
+		
 		int passengerId;
 		
 		passengerId = ((Passenger) Thread.currentThread()).getPassengerId ();
 	      
-	    passenger[passengerId] = (Passenger) Thread.currentThread();
+	    passenger[passengerId] = (Passenger) Thread.currentThread();	    
+	    
 	    passenger[passengerId].setPassengerState(PassengerStates.INQUEUE);
 	    
 	    repos.setPassengerState (passengerId, passenger[passengerId].getPassengerState ());
@@ -219,9 +223,10 @@ public class DepartureAirport {
 	
 	public synchronized boolean checkDocuments(int passengerID) {
 		
+		
 		GenericIO.writelnString(passengerID + " - checkDocumets()");
-		notifyAll();
-		while (!documentsShowed[passengerID])
+		
+		while (!documentsShowed[passengerID] || actualId != passengerID)
 		{ 
 			try
 			{ 
@@ -230,7 +235,7 @@ public class DepartureAirport {
 			catch (InterruptedException e) {}
 		}
 		
-		
+		notifyAll();
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.CHECKPASSENGER);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 		remainingPassengers--;
@@ -238,6 +243,7 @@ public class DepartureAirport {
 		GenericIO.writelnString("Checking passenger " + passengerID + " documents!");
 		passenger[passengerID].setPassengerState(PassengerStates.INFLIGHT);
 		repos.setPassengerState (passengerID, passenger[passengerID].getPassengerState ());
+		
 		
 		passengersOnPlane++;
 		
