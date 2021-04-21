@@ -74,7 +74,12 @@ public class Hostess extends Thread
 	   
 	   GenericIO.writelnString("Hostess created");
 	   departAirport.prepareForPassBoarding();
-	   departAirport.checkDocuments();
+	   while (true) {
+		   int id = departAirport.waitForNextPassenger();
+		   if (id == -1) break;
+		   departAirport.checkDocuments(id);
+	   }
+	   GenericIO.writelnString("Saiu do ciclo");
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {
@@ -112,11 +117,11 @@ public class Hostess extends Thread
    *  Internal operation.
    */
 
-   private void checkDocuments()
-   {
-      try
-      { sleep ((long) (1 + 100 * Math.random ()));
-      }
-      catch (InterruptedException e) {}
-   }
+//   private void checkDocuments()
+//   {
+//      try
+//      { sleep ((long) (1 + 100 * Math.random ()));
+//      }
+//      catch (InterruptedException e) {}
+//   }
 }

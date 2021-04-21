@@ -101,7 +101,7 @@ public class Passenger extends Thread
    {
 	   travelToAirport();
 	   departAirport.waitInQueue();
-	   showDocuments();
+	   departAirport.showDocuments();
 	   return;
 //	   travelToAirport();
 //
@@ -132,13 +132,13 @@ public class Passenger extends Thread
    *  Internal operation.
    */
 
-   private void showDocuments()
-   {
-      try
-      { 
-    	  GenericIO.writelnString("Showing documents");
-    	  sleep ((long) (1 + 20 * Math.random ()));
-      }
-      catch (InterruptedException e) {}
-   }
+//   private void showDocuments()
+//   {
+//      try
+//      { 
+//    	  GenericIO.writelnString("Showing documents");
+//    	  sleep ((long) (1 + 20 * Math.random ()));
+//      }
+//      catch (InterruptedException e) {}
+//   }
 }
