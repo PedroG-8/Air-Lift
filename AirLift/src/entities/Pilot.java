@@ -23,7 +23,8 @@ public class Pilot extends Thread
    */
 
    private final DepartureAirport departAirport;
-
+//   private final Plane departAirport;
+//   private final DestinationAirport departAirport;
   /**
    *   Instantiation of a barber thread.
    *

@@ -85,6 +85,12 @@ public class MemFIFO<R> extends MemObject<R>
         else throw new MemException ("Fifo empty!");
      return val;
    }
+   
+   public R readNotTake() throws MemException {
+	   if (!empty)
+		   return mem[outPnt];
+	   return null;
+   }
 
   /**
    *   Test FIFO current full status.

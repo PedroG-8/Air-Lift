@@ -10,7 +10,7 @@ public final class SimulPar
    *   Number of passengers looking for a flight.
    */
 
-   public static final int K = 10;
+   public static final int K = 11;
 
   /**
    *   Number of hostesses.

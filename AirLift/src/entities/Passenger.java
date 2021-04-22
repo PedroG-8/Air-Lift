@@ -100,8 +100,13 @@ public class Passenger extends Thread
    public void run ()
    {
 	   travelToAirport();
+//	   while (true) {
+//		   boolean shown = departAirport.waitInQueue();
+//		   if (shown) break;
+//	   }
 	   departAirport.waitInQueue();
 	   departAirport.showDocuments();
+//	   plane.boardThePlane();
 	   
 	   return;
 //	   travelToAirport();
