@@ -1,7 +1,7 @@
 package entities;
 
 import genclass.GenericIO;
-import sharedRegions.DepartureAirport;
+import sharedRegions.*;
 
 /**
  *   Customer thread.
@@ -29,6 +29,7 @@ public class Passenger extends Thread
    */
 
    private final DepartureAirport departAirport;
+   private final Plane plane;
 
   /**
    *   Instantiation of a customer thread.
@@ -39,13 +40,13 @@ public class Passenger extends Thread
    *     @param nIter number of iterations of the customer life cycle
    */
 
-   public Passenger (String name, int passengerId, DepartureAirport departAirport)
+   public Passenger (String name, int passengerId, DepartureAirport departAirport, Plane plane)
    {
       super (name);
       this.passengerId = passengerId;
       passengerState = PassengerStates.GOINGTOAIRPORT;
       this.departAirport = departAirport;
-//      System.out.println("Passenger " + passengerId + " created");
+      this.plane = plane;
    }
 
   /**
@@ -106,8 +107,8 @@ public class Passenger extends Thread
 //	   }
 	   departAirport.waitInQueue();
 	   departAirport.showDocuments();
-//	   plane.boardThePlane();
-	   
+	   plane.boardThePlane();
+	   plane.leaveThePlane();
 	   return;
 //	   travelToAirport();
 //
@@ -126,7 +127,7 @@ public class Passenger extends Thread
    {
       try
       { 
-    	  sleep ((long) (1 + 500 * Math.random ()));
+    	  sleep ((long) (1 + 200 * Math.random ()));
       }
       catch (InterruptedException e) {}
       GenericIO.writelnString("Passenger " + passengerId + " is in the airport!");

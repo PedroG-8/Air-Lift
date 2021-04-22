@@ -23,7 +23,7 @@ public class Pilot extends Thread
    */
 
    private final DepartureAirport departAirport;
-//   private final Plane departAirport;
+   private final Plane plane;
 //   private final DestinationAirport departAirport;
   /**
    *   Instantiation of a barber thread.
@@ -33,11 +33,12 @@ public class Pilot extends Thread
    *     @param bShop reference to the barber shop
    */
 
-   public Pilot (String name, DepartureAirport departAirport)
+   public Pilot (String name, DepartureAirport departAirport, Plane plane)
    {
       super (name);
       pilotState = PilotStates.ATTRANSFERGATE;
       this.departAirport = departAirport;
+      this.plane = plane;
       System.out.println("Pilot created");
    }
 
@@ -77,6 +78,10 @@ public class Pilot extends Thread
 	   
 	   waitAbit();
 	   departAirport.informPlaneReadyForBoarding();
+	   
+	   plane.flyToDestinationPoint();
+	   waitAbit();
+	   plane.anounceArrival();
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {

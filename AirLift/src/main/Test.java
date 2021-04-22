@@ -14,6 +14,7 @@ public class Test {
 	      Pilot pilot;    								// array of customer threads
 	      Hostess hostess;  
 	      DepartureAirport departAirport;                                    // reference to the barber shop
+	      Plane plane;
 	      GeneralRepos repos;                                  // reference to the general repository
 	      String fileName;                                     // logging file name
 	      char opt;                                            // selected option
@@ -42,12 +43,13 @@ public class Test {
 	      
 	      repos = new GeneralRepos (fileName);
 	      departAirport = new DepartureAirport(repos);
+	      plane = new Plane(repos);
 	      
-	      pilot = new Pilot("PT", departAirport);
+	      pilot = new Pilot("PT", departAirport, plane);
 	      hostess = new Hostess("HT", departAirport);
 	      
 	      for (int i = 0; i < SimulPar.K; i++)
-	        passenger[i] = new Passenger ("P" + i, i, departAirport);
+	        passenger[i] = new Passenger ("P" + i, i, departAirport, plane);
 	      
 	      
 	      

@@ -80,6 +80,7 @@ public class Hostess extends Thread
 		   departAirport.checkDocuments(id);
 	   }
 	   GenericIO.writelnString("Saiu do ciclo");
+	   departAirport.informPlaneReadyToTakeOff();
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {
