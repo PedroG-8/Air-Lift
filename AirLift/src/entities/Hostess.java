@@ -76,18 +76,20 @@ public class Hostess extends Thread
 	   GenericIO.writelnString("Hostess created");
 	   
 	   while(true) {
+		   System.out.println("receomec");
 		   departAirport.prepareForPassBoarding();
 		   while (true) {
 			   int id = departAirport.waitForNextPassenger();
 			   if (id == -1) break;
 			   departAirport.checkDocuments(id);
-			   if (departAirport.allPassengLeft()) {
-				   return;
-			   }
 		   }
 		   GenericIO.writelnString("Saiu do ciclo");
 		   departAirport.informPlaneReadyToTakeOff();
 		   departAirport.waitForNextFlight();
+		   if (departAirport.allPassengLeft()) {
+			   return;
+		   }
+		   System.out.println("acaba");
 	   }
 //	   prepareForPassBoarding();
 	   // LOOP {

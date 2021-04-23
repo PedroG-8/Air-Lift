@@ -31,6 +31,8 @@ public class Plane {
     // True if the plane reached its destination
     private boolean atDestination = false;
     private boolean allPassengersLeave = false;
+    private int flightNum = 0;
+    private int flightPasseng = 0;
 //    private boolean tookOff = false;
     
     public Plane(GeneralRepos repos)
@@ -60,6 +62,7 @@ public class Plane {
     	
 		try {
 			onPlane.write(passengerId);
+			flightPasseng++;
 			repos.addToF();
 		} catch(Exception e) {}
 		
@@ -81,15 +84,15 @@ public class Plane {
     	
     	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGFORWARD);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
-    	
+		repos.updateFlightInfo(flightPasseng);
 //    	tookOff = true;
     }
     
     
     public synchronized void anounceArrival() {
     	GenericIO.writelnString("Plane reached its destination");
-    	
-    	repos.print("\nFlight 1: arrived.");
+    	flightNum++;
+    	repos.print("\nFlight " + flightNum + ": arrived.");
     	
     	((Pilot) Thread.currentThread()).setPilotState(PilotStates.DEBOARDING);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
@@ -119,9 +122,10 @@ public class Plane {
 		try {
 			passengerId = onPlane.read();
 			repos.removeFromF();
-			repos.addToTOTAL();
+			repos.addToTotal();
 			if (onPlane.isEmpty()) {
 				allPassengersLeave = true;
+				flightPasseng = 0;
 				atDestination = false;
 			}
 		} catch(Exception e) {}

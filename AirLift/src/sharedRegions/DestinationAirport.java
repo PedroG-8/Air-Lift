@@ -18,6 +18,7 @@ public class DestinationAirport {
      */
 	
 	private final GeneralRepos repos;
+	private int flightNum = 0;
     
     private MemFIFO<Integer> onDestination;
 	
@@ -42,10 +43,12 @@ public class DestinationAirport {
 	public synchronized void flyToDeparturePoint() {
     	GenericIO.writelnString("Plane took off");
     	
-    	repos.print("\nFlight 1: returning");
+    	flightNum++;
+    	repos.print("\nFlight " + flightNum + ": returning");
     	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGBACK);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
 
-		GenericIO.writelnString("End of first flight!");
+		
+		GenericIO.writelnString("End of flight " + flightNum + "!");
     }
 }

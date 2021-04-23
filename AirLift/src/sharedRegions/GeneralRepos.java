@@ -36,8 +36,12 @@ public class GeneralRepos {
 	   private int InQ = 0;
 	   private int InF = 0;
 	   private int PTAL = 0;
-
+	   private int flightNum = 0;
+	   
 	   private final int [] pilotState;
+	   
+	   private int [] flightInfo = new int[5];
+	   
 
 	  /**
 	   *   Instantiation of a general repository object.
@@ -233,6 +237,40 @@ public class GeneralRepos {
 	    	}
 	    }
 	    
+	    public synchronized void printFinal() {
+	    	TextFile log = new TextFile ();                      // instantiation of a text file handler
+
+	    	if (!log.openForAppending (".", logFileName))
+	    	{ 
+	    		GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
+	            System.exit (1);
+	    	}
+		       
+	    	log.writelnString ("\nAirlift sum up:");
+
+//	    	System.out.println(flightInfo.size());
+	    	
+	    	int i = 1;
+	    	for (int numP : flightInfo) {
+	    		if(numP != 0) {
+		    		log.writelnString("Flight " + i + " transported " + numP + " passengers");
+					i++;
+	    		}
+			}
+	    	
+//	    	for (int i = 1; i < flightInfo.size(); i++) {
+//	    		log.writelnString("Flight " + i + " transported " + flightInfo.get(i - 1) + " passengers");
+//	    		i++;
+//			}
+	    	
+	    	
+	    	if (!log.close ())
+	    	{ 
+	    		GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
+	            System.exit (1);
+	    	}
+	    }
+	    
 	    public void addToQ() {
 	    	this.InQ += 1;
 	    }
@@ -249,7 +287,17 @@ public class GeneralRepos {
 	    	this.InF -= 1;
 	    }
 	    
-	    public void addToTOTAL() {
+	    public void addToTotal() {
 	    	this.PTAL += 1;
+	    }
+	    
+	    public int getTotal() {
+	    	return PTAL;
+	    }
+	    
+	    public void updateFlightInfo(int passengNum) {
+	    	System.out.println(flightNum);
+	    	flightInfo[this.flightNum] = passengNum;
+	    	this.flightNum++;
 	    }
 }

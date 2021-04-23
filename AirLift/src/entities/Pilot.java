@@ -1,6 +1,7 @@
 package entities;
 
- import sharedRegions.*;
+ import genclass.GenericIO;
+import sharedRegions.*;
 
 /**
  *   Barber thread.
@@ -80,6 +81,10 @@ public class Pilot extends Thread
 	   
 	   while(true){
 		   departAirport.parkAtTransferGate();
+		   if (departAirport.allPassengLeft()) {
+			   GenericIO.writelnString("FINITO");
+			   return;
+		   }
 		   preparingForBoarding();
 		   departAirport.informPlaneReadyForBoarding();
 		   departAirport.waitForAllInBoard();
