@@ -73,12 +73,12 @@ public class Test {
 	      try {
 	    	  pilot.join();
 	      } catch(InterruptedException e) {}
-//	      GenericIO.writelnString ("The pilot has terminated.");
+	      GenericIO.writelnString ("The pilot has terminated.");
 	           
 	      try {
 	    	  hostess.join();
 	      } catch(InterruptedException e) {}
-//	      GenericIO.writelnString ("The hostess has terminated.");
+	      GenericIO.writelnString ("The hostess has terminated.");
 	      
 	      
 	      for (int i = 0; i < SimulPar.K; i++)
@@ -86,7 +86,7 @@ public class Test {
 	        { passenger[i].join ();
 	        }
 	        catch (InterruptedException e) {}
-//	        GenericIO.writelnString ("The passenger " + i + " has terminated.");
+	        GenericIO.writelnString ("The passenger " + i + " has terminated.");
 	      }
 //	      GenericIO.writelnString ();
     }

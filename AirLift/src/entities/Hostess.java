@@ -87,23 +87,10 @@ public class Hostess extends Thread
 		   departAirport.informPlaneReadyToTakeOff();
 		   departAirport.waitForNextFlight();
 		   if (departAirport.allPassengLeft()) {
-			   return;
+			   break;
 		   }
 		   System.out.println("acaba");
 	   }
-//	   prepareForPassBoarding();
-	   // LOOP {
-	   // Passa ao estado WAITFORPASSENGER
-	   // dorme ate haver um passageiro na queue
-//	   checkDocuments();
-	   // Passa ao estado CHECKPASSENGER
-	   // checka os documentos 
-	   // waitForNextPassenger();
-	   
-	   // if(!passageirosNaFila ou max) break
-	   // }
-//	   informPlaneReadyToTakeOff();
-	   // Passa ao estado READYTOFLY
    }
 
 //   @Override

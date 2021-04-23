@@ -41,6 +41,7 @@ public class DepartureAirport {
     private boolean readyToTakeOff = false;
     private boolean readyForBoarding = false;
     private boolean lastFlight = false;
+    private boolean informPilot = false;
 	
 	public DepartureAirport(GeneralRepos repos)
 	{
@@ -80,7 +81,7 @@ public class DepartureAirport {
 		GenericIO.writelnString("Plane ready for flight!");
 		readyForBoarding = true;
 		flightNum++;
-		if (SimulPar.MAX - repos.getTotal() <= 5) {
+		if (SimulPar.K - repos.getTotal() <= 5) {
 			lastFlight = true;
 		}
 		
@@ -96,7 +97,8 @@ public class DepartureAirport {
 		
 		notifyAll();
 		
-		while (!readyToTakeOff)
+		System.out.println("Entra no waitForAllInBoard");
+		while (!informPilot)
 		{
         	try
 	        { 
@@ -105,7 +107,8 @@ public class DepartureAirport {
 	        }
 	        catch (InterruptedException e) {}
 		}
-		readyToTakeOff = false;
+		informPilot = false;
+//		readyToTakeOff = false;
 	}
 	
 	
@@ -184,6 +187,11 @@ public class DepartureAirport {
 			return -1;
 		}
 		
+		if (remainingPassengers == 0 && lastFlight) {
+			readyToTakeOff = true;
+			return -1;
+		}
+		
 		while(nQueue == 0) {
 			try {
 				if (passengersOnPlane >= SimulPar.MIN) {
@@ -257,7 +265,8 @@ public class DepartureAirport {
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 		remainingPassengers--;
 
-		
+		System.out.println("REMAINING PASSENGERS: " + remainingPassengers);
+		System.out.println("Last FLight: " + lastFlight);
 		GenericIO.writelnString("Checking passenger " + passengerID + " documents!");
 		passenger[passengerID].setPassengerState(PassengerStates.INFLIGHT);
 		repos.setPassengerState (passengerID, passenger[passengerID].getPassengerState ());
@@ -272,7 +281,7 @@ public class DepartureAirport {
 	
 	public synchronized void informPlaneReadyToTakeOff() {
 	
-		
+		GenericIO.writelnString("Entra no informPlaneReadyToTakeOff");
 		while (!readyToTakeOff)
 		{ 
 			try
@@ -281,15 +290,16 @@ public class DepartureAirport {
 			}
 			catch (InterruptedException e) {}
 		}
-
+		readyToTakeOff = false;
 		GenericIO.writelnString("Plane ready to take off with " + passengersOnPlane + " passengers!!");
 		
 		repos.print("\nFlight " + flightNum + ": departed with " + passengersOnPlane + " passengers.");
 
-		
+		notifyAll();
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.READYTOFLY);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 	
+		informPilot = true;
 	}
 	
 	public synchronized void waitForNextFlight() {

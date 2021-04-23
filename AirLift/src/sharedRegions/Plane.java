@@ -117,10 +117,11 @@ public class Plane {
     	int passengerId = -1;
     	
 //		passengerId = ((Passenger) Thread.currentThread()).getPassengerId (); 
-//	    passenger[passengerId] = (Passenger) Thread.currentThread();
+//    	passenger[passengerId] = (Passenger) Thread.currentThread();
     	
 		try {
 			passengerId = onPlane.read();
+			
 			repos.removeFromF();
 			repos.addToTotal();
 			if (onPlane.isEmpty()) {
@@ -134,6 +135,7 @@ public class Plane {
 		
 		passenger[passengerId].setPassengerState(PassengerStates.ATDESTINATION);
 		repos.setPassengerState (passengerId, passenger[passengerId].getPassengerState ());
+		
 		
 		// Morre
 		

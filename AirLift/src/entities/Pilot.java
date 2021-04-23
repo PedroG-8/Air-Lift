@@ -83,7 +83,7 @@ public class Pilot extends Thread
 		   departAirport.parkAtTransferGate();
 		   if (departAirport.allPassengLeft()) {
 			   GenericIO.writelnString("FINITO");
-			   return;
+			   break;
 		   }
 		   preparingForBoarding();
 		   departAirport.informPlaneReadyForBoarding();
@@ -98,19 +98,6 @@ public class Pilot extends Thread
 		   
 		   waitAbit();
 	   }
-//	   prepareForPassBoarding();
-	   // LOOP {
-	   // Passa ao estado WAITFORPASSENGER
-	   // dorme ate haver um passageiro na queue
-//	   checkDocuments();
-	   // Passa ao estado CHECKPASSENGER
-	   // checka os documentos 
-	   // waitForNextPassenger();
-	   
-	   // if(!passageirosNaFila ou max) break
-	   // }
-//	   informPlaneReadyToTakeOff();
-	   // Passa ao estado READYTOFLY
    }
 
 //   @Override
