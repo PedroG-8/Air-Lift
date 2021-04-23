@@ -54,12 +54,13 @@ public class Plane {
     public synchronized void boardThePlane() {
     	
     	int passengerId;
-    	
+    	allPassengersLeave = false;
 		passengerId = ((Passenger) Thread.currentThread()).getPassengerId (); 
 	    passenger[passengerId] = (Passenger) Thread.currentThread();
     	
 		try {
 			onPlane.write(passengerId);
+			repos.addToF();
 		} catch(Exception e) {}
 		
 		GenericIO.writelnString("Passenger " + passengerId + " is now on the plane");
@@ -117,8 +118,11 @@ public class Plane {
     	
 		try {
 			passengerId = onPlane.read();
+			repos.removeFromF();
+			repos.addToTOTAL();
 			if (onPlane.isEmpty()) {
 				allPassengersLeave = true;
+				atDestination = false;
 			}
 		} catch(Exception e) {}
 		

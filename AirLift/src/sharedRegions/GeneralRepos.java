@@ -32,6 +32,10 @@ public class GeneralRepos {
 	   /**
 		*  State of the pilot.
 		*/
+	   
+	   private int InQ = 0;
+	   private int InF = 0;
+	   private int PTAL = 0;
 
 	   private final int [] pilotState;
 
@@ -202,7 +206,7 @@ public class GeneralRepos {
 					break;
 	         }
 	       
-	       
+	       lineStatus += "  " + InQ + "    " + InF + "    " + PTAL;
 	         
 	       log.writelnString (lineStatus);
 	       if (!log.close ())
@@ -227,5 +231,25 @@ public class GeneralRepos {
 	    		GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 	            System.exit (1);
 	    	}
+	    }
+	    
+	    public void addToQ() {
+	    	this.InQ += 1;
+	    }
+	    
+	    public void removeFromQ() {
+	    	this.InQ -= 1;
+	    }
+	    
+	    public void addToF() {
+	    	this.InF += 1;
+	    }
+	    
+	    public void removeFromF() {
+	    	this.InF -= 1;
+	    }
+	    
+	    public void addToTOTAL() {
+	    	this.PTAL += 1;
 	    }
 }

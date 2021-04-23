@@ -36,6 +36,7 @@ public class DepartureAirport {
     
     private int passengersOnPlane = 0;
     private int remainingPassengers = SimulPar.K;
+    private int passengInAirport = SimulPar.K;
     private int actualId = -1;
     private int flightNum = 0;
     
@@ -69,7 +70,11 @@ public class DepartureAirport {
 	
 	public synchronized void parkAtTransferGate() {
 		
-		
+		GenericIO.writelnString("Park at transfer gate");
+		if (flightNum != 0) {
+			((Pilot) Thread.currentThread()).setPilotState(PilotStates.ATTRANSFERGATE);
+			repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
+		}
 	}
 	
 	public synchronized void informPlaneReadyForBoarding() {
@@ -77,6 +82,8 @@ public class DepartureAirport {
 		GenericIO.writelnString("Plane ready for flight!");
 		readyForBoarding = true;
 		flightNum++;
+		
+		repos.print("\nFlight " + flightNum + ": boarding started.");
 		((Pilot) Thread.currentThread()).setPilotState(PilotStates.READYFORBOARDING);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
 		
@@ -97,6 +104,7 @@ public class DepartureAirport {
 	        }
 	        catch (InterruptedException e) {}
 		}
+		readyToTakeOff = false;
 	}
 	
 	
@@ -154,6 +162,7 @@ public class DepartureAirport {
     	  GenericIO.writelnString("Passenger " + passengerId + " added to queue");
     	  inQueue.write(passengerId);                    // the passenger enters the Queue
     	  nQueue++;
+    	  repos.addToQ();
     	  documentsShowed[passengerId] = false;
       }
       catch (MemException e)
@@ -196,11 +205,16 @@ public class DepartureAirport {
 	
 	public synchronized int waitForNextPassenger() {
 		
-		
+		readyForBoarding = false;
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORPASSENGER);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 		
 		// acorda quando algum chega
+		
+		if (remainingPassengers <= SimulPar.MIN) {
+			readyToTakeOff = true;
+			return -1;
+		}
 		
 		if (passengersOnPlane == SimulPar.MAX) {
 			readyToTakeOff = true;
@@ -222,6 +236,7 @@ public class DepartureAirport {
 		
 //		headOfQueue = true;
 		nQueue -= 1;
+		repos.removeFromQ();
 		int passengerId = -1;
 		try {
 			passengerId = inQueue.read();
@@ -322,7 +337,7 @@ public class DepartureAirport {
 			}
 			catch (InterruptedException e) {}
 		}
-		
+
 		GenericIO.writelnString("Plane ready to take off with " + passengersOnPlane + " passengers!!");
 		
 		repos.print("\nFlight " + flightNum + ": departed with " + passengersOnPlane + " passengers.");
@@ -338,11 +353,20 @@ public class DepartureAirport {
 	
 	public synchronized void waitForNextFlight() {
 		
+		
+		passengersOnPlane = 0;
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
+		
+		while(!readyForBoarding) {
+			try {
+				wait();
+			} catch(Exception e) {}
+		}
 	}
 	
 	public synchronized boolean allPassengLeft() {
+		GenericIO.writelnString("Missingg" + remainingPassengers + " passengers!!");
 		if (remainingPassengers == 0) return true;         
 		return false;
 	}

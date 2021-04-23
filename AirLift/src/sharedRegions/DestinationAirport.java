@@ -42,6 +42,7 @@ public class DestinationAirport {
 	public synchronized void flyToDeparturePoint() {
     	GenericIO.writelnString("Plane took off");
     	
+    	repos.print("\nFlight 1: returning");
     	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGBACK);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
 

@@ -79,16 +79,18 @@ public class Pilot extends Thread
    public void run() {
 	   
 	   while(true){
-		   waitAbit();
+		   departAirport.parkAtTransferGate();
+		   preparingForBoarding();
 		   departAirport.informPlaneReadyForBoarding();
 		   departAirport.waitForAllInBoard();
-		   if (departAirport.allPassengLeft()) {
-			   return;
-		   }
+//		   if (departAirport.allPassengLeft()) {
+//			   return;
+//		   }
 		   plane.flyToDestinationPoint();
 		   flyingToDestination();
 		   plane.anounceArrival();
 		   destAirport.flyToDeparturePoint();
+		   
 		   waitAbit();
 	   }
 //	   prepareForPassBoarding();
@@ -139,6 +141,14 @@ public class Pilot extends Thread
    {
       try
       { sleep ((long) (1 + 100 * Math.random ()));
+      }
+      catch (InterruptedException e) {}
+   }
+   
+   private void preparingForBoarding()
+   {
+      try
+      { sleep ((long) (1 + 10 * Math.random ()));
       }
       catch (InterruptedException e) {}
    }
