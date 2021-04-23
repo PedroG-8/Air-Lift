@@ -78,15 +78,19 @@ public class Pilot extends Thread
    @Override
    public void run() {
 	   
-	   waitAbit();
-	   departAirport.informPlaneReadyForBoarding();
-	   departAirport.waitForAllInBoard();
-	   plane.flyToDestinationPoint();
-	   flyingToDestination();
-	   plane.anounceArrival();
-	   destAirport.flyToDeparturePoint();
-	   waitAbit();
-	   return;
+	   while(true){
+		   waitAbit();
+		   departAirport.informPlaneReadyForBoarding();
+		   departAirport.waitForAllInBoard();
+		   if (departAirport.allPassengLeft()) {
+			   return;
+		   }
+		   plane.flyToDestinationPoint();
+		   flyingToDestination();
+		   plane.anounceArrival();
+		   destAirport.flyToDeparturePoint();
+		   waitAbit();
+	   }
 //	   prepareForPassBoarding();
 	   // LOOP {
 	   // Passa ao estado WAITFORPASSENGER

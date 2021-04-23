@@ -72,17 +72,23 @@ public class Hostess extends Thread
    @Override
    public void run() {
 	   
+	   
 	   GenericIO.writelnString("Hostess created");
-	   departAirport.prepareForPassBoarding();
-	   while (true) {
-		   int id = departAirport.waitForNextPassenger();
-		   if (id == -1) break;
-		   departAirport.checkDocuments(id);
+	   
+	   while(true) {
+		   departAirport.prepareForPassBoarding();
+		   while (true) {
+			   int id = departAirport.waitForNextPassenger();
+			   if (id == -1) break;
+			   departAirport.checkDocuments(id);
+			   if (departAirport.allPassengLeft()) {
+				   return;
+			   }
+		   }
+		   GenericIO.writelnString("Saiu do ciclo");
+		   departAirport.informPlaneReadyToTakeOff();
+		   departAirport.waitForNextFlight();
 	   }
-	   GenericIO.writelnString("Saiu do ciclo");
-	   departAirport.informPlaneReadyToTakeOff();
-	   departAirport.waitForNextFlight();
-	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {
 	   // Passa ao estado WAITFORPASSENGER

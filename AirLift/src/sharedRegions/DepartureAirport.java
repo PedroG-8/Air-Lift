@@ -39,7 +39,7 @@ public class DepartureAirport {
     private int actualId = -1;
     private int flightNum = 0;
     
-    private boolean passBoarding = false;
+//    private boolean passBoarding = false;
 //    private boolean headOfQueue = false;
     
    
@@ -114,7 +114,7 @@ public class DepartureAirport {
 		}
 		
 		GenericIO.writelnString("Preparing for boarding!");
-		passBoarding = true;
+//		passBoarding = true;
 //		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORPASSENGER);
 //		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 	}
@@ -340,6 +340,11 @@ public class DepartureAirport {
 		
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
+	}
+	
+	public synchronized boolean allPassengLeft() {
+		if (remainingPassengers == 0) return true;         
+		return false;
 	}
 
 }
