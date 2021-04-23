@@ -3,7 +3,6 @@ package main;
 import entities.*;
 import genclass.FileOp;
 import genclass.GenericIO;
-import infrastructures.*;
 import sharedRegions.*;
 
 public class Test {
@@ -15,6 +14,7 @@ public class Test {
 	      Hostess hostess;  
 	      DepartureAirport departAirport;                                    // reference to the barber shop
 	      Plane plane;
+	      DestinationAirport destAirport;
 	      GeneralRepos repos;                                  // reference to the general repository
 	      String fileName;                                     // logging file name
 	      char opt;                                            // selected option
@@ -44,8 +44,9 @@ public class Test {
 	      repos = new GeneralRepos (fileName);
 	      departAirport = new DepartureAirport(repos);
 	      plane = new Plane(repos);
+	      destAirport = new DestinationAirport(repos);
 	      
-	      pilot = new Pilot("PT", departAirport, plane);
+	      pilot = new Pilot("PT", departAirport, plane, destAirport);
 	      hostess = new Hostess("HT", departAirport);
 	      
 	      for (int i = 0; i < SimulPar.K; i++)

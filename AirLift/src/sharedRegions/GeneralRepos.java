@@ -215,8 +215,6 @@ public class GeneralRepos {
 	    	
 	    	TextFile log = new TextFile ();                      // instantiation of a text file handler
 
-	    	String lineStatus = "";                              // state line to be printed
-
 	    	if (!log.openForAppending (".", logFileName))
 	    	{ 
 	    		GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");

@@ -30,6 +30,7 @@ public class Plane {
     
     // True if the plane reached its destination
     private boolean atDestination = false;
+    private boolean allPassengersLeave = false;
 //    private boolean tookOff = false;
     
     public Plane(GeneralRepos repos)
@@ -48,28 +49,6 @@ public class Plane {
 	  
 	  this.repos = repos;
 	}
-    
-    public synchronized void flyToDestinationPoint() {
-    	GenericIO.writelnString("Plane took off");
-    	
-    	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGFORWARD);
-		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
-    	
-//    	tookOff = true;
-    }
-    
-    
-    public synchronized void anounceArrival() {
-    	GenericIO.writelnString("Plane reached its destination");
-    	
-    	repos.print("\nFlight 1: arrived.");
-    	
-    	((Pilot) Thread.currentThread()).setPilotState(PilotStates.DEBOARDING);
-		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
-    	
-		atDestination = true;
-		notifyAll();
-    }
     
     
     public synchronized void boardThePlane() {
@@ -95,6 +74,40 @@ public class Plane {
 	    }
 	}
     
+    
+    public synchronized void flyToDestinationPoint() {
+    	GenericIO.writelnString("Plane took off");
+    	
+    	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGFORWARD);
+		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
+    	
+//    	tookOff = true;
+    }
+    
+    
+    public synchronized void anounceArrival() {
+    	GenericIO.writelnString("Plane reached its destination");
+    	
+    	repos.print("\nFlight 1: arrived.");
+    	
+    	((Pilot) Thread.currentThread()).setPilotState(PilotStates.DEBOARDING);
+		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
+    	
+		atDestination = true;
+		notifyAll();
+		
+		while(!allPassengersLeave) {
+			try {
+				wait();
+			} catch(Exception e) {}
+		}
+		
+		GenericIO.writelnString("All passengers left!");
+    }
+    
+    
+    
+    
     public synchronized void leaveThePlane() {
     	
     	int passengerId = -1;
@@ -104,12 +117,17 @@ public class Plane {
     	
 		try {
 			passengerId = onPlane.read();
+			if (onPlane.isEmpty()) {
+				allPassengersLeave = true;
+			}
 		} catch(Exception e) {}
 		
 		GenericIO.writelnString("Passenger " + passengerId + " is deboarding");
 		
 		passenger[passengerId].setPassengerState(PassengerStates.ATDESTINATION);
 		repos.setPassengerState (passengerId, passenger[passengerId].getPassengerState ());
+		
+		// Morre
 		
 		notifyAll();		
 	}

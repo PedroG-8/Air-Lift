@@ -81,6 +81,7 @@ public class Hostess extends Thread
 	   }
 	   GenericIO.writelnString("Saiu do ciclo");
 	   departAirport.informPlaneReadyToTakeOff();
+	   departAirport.waitForNextFlight();
 	   return;
 //	   prepareForPassBoarding();
 	   // LOOP {
