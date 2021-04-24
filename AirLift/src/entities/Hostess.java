@@ -86,39 +86,13 @@ public class Hostess extends Thread
 		   GenericIO.writelnString("Saiu do ciclo");
 		   departAirport.informPlaneReadyToTakeOff();
 		   departAirport.waitForNextFlight();
+		   GenericIO.writelnString("Entra aqui");
 		   if (departAirport.allPassengLeft()) {
+			   GenericIO.writelnString("Entra aqui");
 			   break;
 		   }
 		   System.out.println("acaba");
 	   }
+	   GenericIO.writelnString("Hostess should terminate");
    }
-
-//   @Override
-//   public void run ()
-//   {
-//      int customerId;                                      // customer id
-//      boolean endOp;                                       // flag signaling end of operations
-//
-//      while (true)
-//      { endOp = bShop.goToSleep ();                        // the barber sleeps while waiting for a customer to service
-//        if (endOp) break;                                  // check for end of operations
-//        customerId = bShop.callACustomer ();               // the barber has waken up and calls next customer
-//        cutHair ();                                        // the barber cuts the customer hair
-//        bShop.receivePayment (customerId);                 // the barber finishes his service and receives payment for it
-//      }
-//   }
-
-  /**
-   *  Cutting the customer hair.
-   *
-   *  Internal operation.
-   */
-
-//   private void checkDocuments()
-//   {
-//      try
-//      { sleep ((long) (1 + 100 * Math.random ()));
-//      }
-//      catch (InterruptedException e) {}
-//   }
 }

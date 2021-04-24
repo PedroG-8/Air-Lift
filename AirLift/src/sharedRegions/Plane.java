@@ -63,7 +63,7 @@ public class Plane {
 		try {
 			onPlane.write(passengerId);
 			flightPasseng++;
-			repos.addToF();
+//			repos.addToF();
 		} catch(Exception e) {}
 		
 		GenericIO.writelnString("Passenger " + passengerId + " is now on the plane");

@@ -5,6 +5,10 @@ import entities.*;
 import genclass.GenericIO;
 import main.SimulPar;
 
+/**
+ * @author Pedro Gonçalves, Rui Miguel
+ *
+ */
 public class DepartureAirport {
 
 	
@@ -46,22 +50,20 @@ public class DepartureAirport {
 	public DepartureAirport(GeneralRepos repos)
 	{
 	      	
-	  nQueue = 0;
-	  passenger = new Passenger [SimulPar.K];
-	  for (int i = 0; i < SimulPar.K; i++)
-		  passenger[i] = null;
-	  try
-      { 
-		  inAirport = new MemFIFO<> (new Integer [SimulPar.K]);
-		  inQueue = new MemFIFO<> (new Integer [SimulPar.K]);
-      } catch (MemException e)
-      { 	
-    	  GenericIO.writelnString ("Instantiation of waiting FIFO failed: " + e.getMessage ());
-      	  inQueue = null;
-      	  System.exit (1);
-      }
-	  
-	  this.repos = repos;
+		nQueue = 0;
+		passenger = new Passenger [SimulPar.K];
+		for (int i = 0; i < SimulPar.K; i++)
+			passenger[i] = null;
+		try
+		{ 
+			inAirport = new MemFIFO<> (new Integer [SimulPar.K]);
+			inQueue = new MemFIFO<> (new Integer [SimulPar.K]);
+		} catch (MemException e) { 	
+			GenericIO.writelnString ("Instantiation of waiting FIFO failed: " + e.getMessage ());
+      	  	inQueue = null;
+      	  	System.exit (1);
+		}
+		this.repos = repos;
 	}
 	
 	public synchronized void parkAtTransferGate() {
@@ -74,6 +76,7 @@ public class DepartureAirport {
 		if (repos.getTotal() == SimulPar.K) {
 			repos.printFinal();
 		}
+		
 	}
 	
 	public synchronized void informPlaneReadyForBoarding() {
@@ -91,6 +94,9 @@ public class DepartureAirport {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public synchronized void waitForAllInBoard() {
 		((Pilot) Thread.currentThread()).setPilotState(PilotStates.WAITINGFORBOARDING);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
@@ -112,6 +118,9 @@ public class DepartureAirport {
 	}
 	
 	
+	/**
+	 * 
+	 */
 	public synchronized void prepareForPassBoarding() {
 		
 		// Hostess is waiting for the pilot info
@@ -129,6 +138,9 @@ public class DepartureAirport {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public synchronized boolean waitInQueue()
 	{
 			
@@ -268,8 +280,11 @@ public class DepartureAirport {
 		System.out.println("REMAINING PASSENGERS: " + remainingPassengers);
 		System.out.println("Last FLight: " + lastFlight);
 		GenericIO.writelnString("Checking passenger " + passengerID + " documents!");
+		
+		repos.addToF();
 		passenger[passengerID].setPassengerState(PassengerStates.INFLIGHT);
 		repos.setPassengerState (passengerID, passenger[passengerID].getPassengerState ());
+		
 		passengersOnPlane++;
 		
 		if (remainingPassengers == 0 && lastFlight) {
@@ -304,7 +319,6 @@ public class DepartureAirport {
 	
 	public synchronized void waitForNextFlight() {
 		
-		
 		passengersOnPlane = 0;
 		((Hostess) Thread.currentThread()).setHostessState(HostessStates.WAITFORFLIGHT);
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
@@ -316,9 +330,14 @@ public class DepartureAirport {
 		}
 	}
 	
+
 	public synchronized boolean allPassengLeft() {
 		GenericIO.writelnString("Missing " + remainingPassengers + " passengers!!");
-		if (remainingPassengers == 0) return true;         
+		readyForBoarding = true;
+		if (remainingPassengers == 0) {
+			notifyAll();
+			return true;         
+		}
 		return false;
 	}
 

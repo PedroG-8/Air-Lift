@@ -52,10 +52,7 @@ public class Test {
 	      for (int i = 0; i < SimulPar.K; i++)
 	        passenger[i] = new Passenger ("P" + i, i, departAirport, plane);
 	      
-	      
-	      
-//	      for (int i = 0; i < SimulPar.N; i++)
-//	        customer[i] = new Customer ("Cust_" + (i+1), i, bShop, nIter);
+	 
 
 	     /* start of the simulation */
 	      
@@ -68,7 +65,6 @@ public class Test {
 
 	     /* waiting for the end of the simulation */
 	      
-//	      GenericIO.writelnString ();
 	      
 	      try {
 	    	  pilot.join();
@@ -80,14 +76,16 @@ public class Test {
 	      } catch(InterruptedException e) {}
 	      GenericIO.writelnString ("The hostess has terminated.");
 	      
-	      
 	      for (int i = 0; i < SimulPar.K; i++)
-	      { try
-	        { passenger[i].join ();
-	        }
-	        catch (InterruptedException e) {}
-	        GenericIO.writelnString ("The passenger " + i + " has terminated.");
+	      { 
+	    	  try
+	    	  { 
+	    		  passenger[i].join ();
+	    	  }
+	    	  catch (InterruptedException e) {}
+	    	  GenericIO.writelnString ("The passenger " + i + " has terminated.");
 	      }
+	      
 //	      GenericIO.writelnString ();
     }
 }
