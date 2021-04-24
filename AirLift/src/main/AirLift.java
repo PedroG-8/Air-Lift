@@ -5,20 +5,31 @@ import genclass.FileOp;
 import genclass.GenericIO;
 import sharedRegions.*;
 
-public class Test {
+/**
+ * @author Pedro Gonçalves 88859
+ * @author Rui Oliveira 89216
+ *
+ */
+public class AirLift {
 
+	/**
+     *    Main method.
+     *
+     *    @param args runtime arguments
+     */
+	
 	public static void main (String [] args)
 	   {
-	      Passenger [] passenger = new Passenger [SimulPar.K];          // array of passenger threads
-	      Pilot pilot;    								// array of customer threads
-	      Hostess hostess;  
-	      DepartureAirport departAirport;                                    // reference to the barber shop
-	      Plane plane;
-	      DestinationAirport destAirport;
-	      GeneralRepos repos;                                  // reference to the general repository
-	      String fileName;                                     // logging file name
-	      char opt;                                            // selected option
-	      boolean success;                                     // end of operation flag
+	      Passenger [] passenger = new Passenger [SimulPar.K];	// array of passenger threads
+	      Pilot pilot;    										// array of customer threads
+	      Hostess hostess;  									// array of hostess threads
+	      DepartureAirport departAirport;                      	// reference to the departure airport
+	      Plane plane;											// reference to the plane
+	      DestinationAirport destAirport;						// reference to the destination airport
+	      GeneralRepos repos;                                  	// reference to the general repository
+	      String fileName;                                    	// logging file name
+	      char opt;                                            	// selected option
+	      boolean success;                                     	// end of operation flag
 
 	     /* problem initialization */
 
@@ -26,13 +37,11 @@ public class Test {
 	      do
 	      { 
 	    	  GenericIO.writeString ("Logging file name? ");
-//	        	fileName = GenericIO.readlnString ();
-	    	  fileName = "logg";
-	        if (FileOp.exists (".", fileName))
+	    	  fileName = GenericIO.readlnString ();
+	    	  if (FileOp.exists (".", fileName))
 	           { do
 	             { GenericIO.writeString ("There is already a file with this name. Delete it (y - yes; n - no)? ");
-//	               opt = GenericIO.readlnChar ();
-	             	opt = 'y';
+	               opt = GenericIO.readlnChar ();
 	             } while ((opt != 'y') && (opt != 'n'));
 	             if (opt == 'y')
 	                success = true;
@@ -52,19 +61,14 @@ public class Test {
 	      for (int i = 0; i < SimulPar.K; i++)
 	        passenger[i] = new Passenger ("P" + i, i, departAirport, plane);
 	      
-	 
-
 	     /* start of the simulation */
-	      
 	      
 	      pilot.start();
 	      hostess.start();
 	      for (int i = 0; i < SimulPar.K; i++)
 	    	  passenger[i].start ();
-	      
 
 	     /* waiting for the end of the simulation */
-	      
 	      
 	      try {
 	    	  pilot.join();
@@ -85,7 +89,5 @@ public class Test {
 	    	  catch (InterruptedException e) {}
 	    	  GenericIO.writelnString ("The passenger " + i + " has terminated.");
 	      }
-	      
-//	      GenericIO.writelnString ();
     }
 }
