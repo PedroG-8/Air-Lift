@@ -1,20 +1,19 @@
 package entities;
 
- import genclass.GenericIO;
+import genclass.GenericIO;
 import sharedRegions.DepartureAirport;
 
 /**
- *   Barber thread.
+ *   Hostess thread.
  *
- *   It simulates the barber life cycle.
+ *   It simulates the hostess life cycle.
  *   Static solution.
  */
 
-public class Hostess extends Thread
-{
+public class Hostess extends Thread {
 
   /**
-   *  Barber state.
+   *  Hostess state.
    */
 
    private int hostessState;
@@ -26,11 +25,10 @@ public class Hostess extends Thread
    private final DepartureAirport departAirport;
 
   /**
-   *   Instantiation of a barber thread.
+   *   Instantiation of a hostess thread.
    *
    *     @param name thread name
-   *     @param barberId barber id
-   *     @param bShop reference to the barber shop
+   *     @param departAirport reference to the Departure Airport
    */
 
    public Hostess (String name, DepartureAirport departAirport)
@@ -40,58 +38,47 @@ public class Hostess extends Thread
       this.departAirport = departAirport;
    }
 
-  
-
   /**
-   *   Set barber state.
+   *   Set hostess state.
    *
-   *     @param state new barber state
+   *     @param state new hostess state
    */
-
+   
    public void setHostessState (int state)
    {
       hostessState = state;
    }
 
   /**
-   *   Get barber state.
+   *   Get hostess state.
    *
-   *     @return barber state
+   *     @return hostess state
    */
-
+   
    public int getHostessState ()
    {
       return hostessState;
    }
 
   /**
-   *   Life cycle of the barber.
+   *   Life cycle of the hostess.
    */
-   
    
    @Override
    public void run() {
-	   
-	   
 	   GenericIO.writelnString("Hostess created");
-	   
 	   while(true) {
-		   System.out.println("receomec");
 		   departAirport.prepareForPassBoarding();
 		   while (true) {
 			   int id = departAirport.waitForNextPassenger();
 			   if (id == -1) break;
 			   departAirport.checkDocuments(id);
 		   }
-		   GenericIO.writelnString("Saiu do ciclo");
 		   departAirport.informPlaneReadyToTakeOff();
 		   departAirport.waitForNextFlight();
-		   GenericIO.writelnString("Entra aqui");
 		   if (departAirport.allPassengLeft()) {
-			   GenericIO.writelnString("Entra aqui");
 			   break;
 		   }
-		   System.out.println("acaba");
 	   }
 	   GenericIO.writelnString("Hostess should terminate");
    }

@@ -4,40 +4,45 @@ import genclass.GenericIO;
 import sharedRegions.*;
 
 /**
- *   Customer thread.
+ *   Passenger thread.
  *
- *   It simulates the customer life cycle.
+ *   It simulates the passenger life cycle.
  *   Static solution.
  */
 
-public class Passenger extends Thread
+public class Passenger extends Thread 
 {
   /**
-   *  Customer identification.
+   *  Passenger identification.
    */
 
    private int passengerId;
 
   /**
-   *  Customer state.
+   *  Passenger state.
    */
 
    private int passengerState;
 
   /**
-   *  Reference to the barber shop.
+   *  Reference to the departure airport.
    */
 
    private final DepartureAirport departAirport;
+   
+  /**
+   *  Reference to the plane.
+   */
+   
    private final Plane plane;
 
   /**
-   *   Instantiation of a customer thread.
+   *   Instantiation of a Passenger thread.
    *
    *     @param name thread name
-   *     @param customerId customer id
-   *     @param bShop reference to the barber shop
-   *     @param nIter number of iterations of the customer life cycle
+   *     @param passengerId passenger id
+   *     @param departAirport reference to the Departure Airport
+   *     @param plane reference to the Plane
    */
 
    public Passenger (String name, int passengerId, DepartureAirport departAirport, Plane plane)
@@ -50,9 +55,9 @@ public class Passenger extends Thread
    }
 
   /**
-   *   Set customer id.
+   *   Set passenger id.
    *
-   *     @param id customer id
+   *     @param id passenger id
    */
 
    public void setPassengerId (int id)
@@ -61,9 +66,9 @@ public class Passenger extends Thread
    }
 
   /**
-   *   Get customer id.
+   *   Get passenger id.
    *
-   *     @return customer id
+   *     @return passenger id
    */
 
    public int getPassengerId ()
@@ -72,9 +77,9 @@ public class Passenger extends Thread
    }
 
   /**
-   *   Set customer state.
+   *   Set passenger state.
    *
-   *     @param state new customer state
+   *     @param state new passenger state
    */
 
    public void setPassengerState (int state)
@@ -83,9 +88,9 @@ public class Passenger extends Thread
    }
 
   /**
-   *   Get customer state.
+   *   Get passenger state.
    *
-   *     @return customer state
+   *     @return passenger state
    */
 
    public int getPassengerState ()
@@ -94,30 +99,21 @@ public class Passenger extends Thread
    }
 
   /**
-   *   Life cycle of the customer.
+   *   Life cycle of the passenger.
    */
 
    @Override
    public void run ()
    {
 	   travelToAirport();
-//	   while (true) {
-//		   boolean shown = departAirport.waitInQueue();
-//		   if (shown) break;
-//	   }
 	   departAirport.waitInQueue();
 	   departAirport.showDocuments();
 	   plane.boardThePlane();
 	   plane.leaveThePlane();
-//	   travelToAirport();
-//
-//	   while(!departAirport.waitInQueue()) 
-//		   showDocuments();
-		   
    }
 
   /**
-   *  Living normal life.
+   *  Travel to Airport.
    *
    *  Internal operation.
    */
@@ -131,20 +127,5 @@ public class Passenger extends Thread
       catch (InterruptedException e) {}
       GenericIO.writelnString("Passenger " + passengerId + " is in the airport!");
    }
-
-  /**
-   *  Showing documents.
-   *
-   *  Internal operation.
-   */
-
-//   private void showDocuments()
-//   {
-//      try
-//      { 
-//    	  GenericIO.writelnString("Showing documents");
-//    	  sleep ((long) (1 + 20 * Math.random ()));
-//      }
-//      catch (InterruptedException e) {}
-//   }
+   
 }
