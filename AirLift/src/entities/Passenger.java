@@ -7,7 +7,6 @@ import sharedRegions.*;
  *   Passenger thread.
  *
  *   It simulates the passenger life cycle.
- *   Static solution.
  */
 
 public class Passenger extends Thread 
@@ -122,7 +121,7 @@ public class Passenger extends Thread
    {
       try
       { 
-    	  sleep ((long) (1 + 500 * Math.random ()));
+    	  sleep ((long) (1 + 700 * Math.random ()));
       }
       catch (InterruptedException e) {}
       GenericIO.writelnString("Passenger " + passengerId + " is in the airport!");
