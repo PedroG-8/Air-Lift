@@ -1,6 +1,5 @@
 package sharedRegions;
 
-import infrastructures.*;
 import entities.*;
 import genclass.GenericIO;
 import main.SimulPar;
@@ -18,37 +17,41 @@ public class DestinationAirport {
      */
 	
 	private final GeneralRepos repos;
+	
+	/**
+     *  Flight number
+     */
+	
 	private int flightNum = 0;
-    
-    private MemFIFO<Integer> onDestination;
+	
+	/**
+     *   Instantiation of the destination airport
+     *
+     *     @param repos general repository
+     */
 	
 	public DestinationAirport(GeneralRepos repos)
 	{
 	  passenger = new Passenger [SimulPar.K];
 	  for (int i = 0; i < SimulPar.K; i++)
 		  passenger[i] = null;
-	  try
-      { 
-		  onDestination = new MemFIFO<> (new Integer [SimulPar.K]);
-      } catch (MemException e)
-      { 	
-    	  GenericIO.writelnString ("Instantiation of waiting FIFO failed: " + e.getMessage ());
-      	  System.exit (1);
-      }
-	  
 	  this.repos = repos;
 	}
 	
+	/**
+	 *  Operation fly to departure point
+	 *
+	 *  It is called by the pilot after deboarding.
+	 *
+	 */
 	
-	public synchronized void flyToDeparturePoint() {
+	public synchronized void flyToDeparturePoint() 
+	{
     	GenericIO.writelnString("Plane took off");
-    	
     	flightNum++;
     	repos.print("\nFlight " + flightNum + ": returning");
     	((Pilot) Thread.currentThread()).setPilotState(PilotStates.FLYINGBACK);
 		repos.setPilotState(((Pilot) Thread.currentThread()).getPilotState ());
-
-		
 		GenericIO.writelnString("End of flight " + flightNum + "!");
     }
 }

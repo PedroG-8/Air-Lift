@@ -9,13 +9,11 @@ import main.SimulPar;
 
 public class GeneralRepos {
 
-	
-	/**
+	  /**
 	   *  Name of the logging file.
 	   */
 
 	   private final String logFileName;
-
 
 	  /**
 	   *  State of the passengers.
@@ -33,23 +31,45 @@ public class GeneralRepos {
 		*  State of the pilot.
 		*/
 	   
-	   private int InQ = 0;
-	   private int InF = 0;
-	   private int PTAL = 0;
-	   private int flightNum = 0;
-	   
 	   private final int [] pilotState;
 	   
-	   private int [] flightInfo = new int[5];
+	   /**
+		*  Number of passengers in queue
+		*/
 	   
+	   private int InQ = 0;
+	   
+	   /**
+		*  Number of passengers in flight
+		*/
+	   
+	   private int InF = 0;
+	   
+	   /**
+		*  Number of passengers that have arrived
+		*/
+	   
+	   private int PTAL = 0;
+	   
+	   /**
+		*  Flight number.
+		*/
+	   
+	   private int flightNum = 0;
+	   
+	   /**
+		*  Array with information to pass to the repository
+		*/
+	   
+	   private int [] flightInfo = new int[5];
 
-	  /**
-	   *   Instantiation of a general repository object.
-	   *
-	   *     @param logFileName name of the logging file
-	   *     @param nIter number of iterations of the customer life cycle
-	   */
-
+	   /**
+	    *   Instantiation of a general repository object.
+	    *
+	    *   @param logFileName name of the logging file
+	    *     
+	    */
+ 
 	   public GeneralRepos (String logFileName)
 	   {
 	      if ((logFileName == null) || Objects.equals (logFileName, ""))
@@ -93,7 +113,7 @@ public class GeneralRepos {
 	    }
 	    
 	    /**
-	     *   Set pilot tate.
+	     *   Set pilot state.
 	     *
 	     *     @param state pilot state
 	     */
@@ -124,7 +144,9 @@ public class GeneralRepos {
 	   /**
 	    *  Write the header to the logging file.
 	    *
-	    *  The barbers are sleeping and the customers are carrying out normal duties.
+	    *  The pilot is at the the transfer gate
+	    *  The hostess is waiting for the next flight
+	    *  The passenger is going to the airport
 	    *  Internal operation.
 	    */
 
@@ -156,7 +178,7 @@ public class GeneralRepos {
 	   /**
 	    *  Write a state line at the end of the logging file.
 	    *
-	    *  The current state of the barbers and the customers is organized in a line to be printed.
+	    *  The current state of the pilot, hostess and passengers is organized in a line to be printed.
 	    *  Internal operation.
 	    */
 
@@ -214,10 +236,17 @@ public class GeneralRepos {
 	         
 	       log.writelnString (lineStatus);
 	       if (!log.close ())
-	          { GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
-	            System.exit (1);
-	          }
+	       { GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
+           		System.exit (1);
+	       }
 	    }
+	    
+	    
+	    /**
+	     * Write any text to the logg file
+	     * 
+	     * @param toPrint text to be printed on the logg file
+	     */
 	    
 	    public synchronized void print(String toPrint) {
 	    	
@@ -237,6 +266,11 @@ public class GeneralRepos {
 	    	}
 	    }
 	    
+	    /**
+	     * Write last status of the flight
+	     * Air lift sum up
+	     */
+	    
 	    public synchronized void printFinal() {
 	    	TextFile log = new TextFile ();                      // instantiation of a text file handler
 
@@ -247,8 +281,6 @@ public class GeneralRepos {
 	    	}
 		       
 	    	log.writelnString ("\nAirlift sum up:");
-
-//	    	System.out.println(flightInfo.size());
 	    	
 	    	int i = 1;
 	    	for (int numP : flightInfo) {
@@ -258,12 +290,6 @@ public class GeneralRepos {
 	    		}
 			}
 	    	
-//	    	for (int i = 1; i < flightInfo.size(); i++) {
-//	    		log.writelnString("Flight " + i + " transported " + flightInfo.get(i - 1) + " passengers");
-//	    		i++;
-//			}
-	    	
-	    	
 	    	if (!log.close ())
 	    	{ 
 	    		GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
@@ -271,29 +297,59 @@ public class GeneralRepos {
 	    	}
 	    }
 	    
+	    /**
+	     * Increases the number of passengers in the queue
+	     */
+	    
 	    public void addToQ() {
 	    	this.InQ += 1;
 	    }
 	    
+	    /**
+	     * Decreases the number of passengers in the queue
+	     */
+	    
 	    public void removeFromQ() {
 	    	this.InQ -= 1;
 	    }
+
+	    /**
+	     * Increases the number of passengers in flight
+	     */
 	    
 	    public void addToF() {
 	    	this.InF += 1;
 	    }
 	    
+	    /**
+	     * Decreases the number of passengers in flight
+	     */
+	    
 	    public void removeFromF() {
 	    	this.InF -= 1;
 	    }
+
+	    /**
+	     * Increases the number of passengers that have arrived
+	     */
 	    
 	    public void addToTotal() {
 	    	this.PTAL += 1;
 	    }
 	    
+	    /**
+	     * @return total of passengers that have arrived
+	     */
+	    
 	    public int getTotal() {
 	    	return PTAL;
 	    }
+	    
+	    /**
+	     * Updates the flight information
+	     * 
+	     * @param passengNum number of passengers
+	     */
 	    
 	    public void updateFlightInfo(int passengNum) {
 	    	System.out.println(flightNum);
