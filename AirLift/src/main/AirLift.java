@@ -21,7 +21,7 @@ public class AirLift {
 	public static void main (String [] args)
 	   {
 	      Passenger [] passenger = new Passenger [SimulPar.K];	// array of passenger threads
-	      Pilot pilot;    										// array of customer threads
+	      Pilot pilot;    										// array of pilot threads
 	      Hostess hostess;  									// array of hostess threads
 	      DepartureAirport departAirport;                      	// reference to the departure airport
 	      Plane plane;											// reference to the plane

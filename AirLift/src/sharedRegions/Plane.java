@@ -116,7 +116,7 @@ public class Plane {
 	 *  It is called by the pilot after waiting for boarding
 	 */
     
-    public synchronized void anounceArrival() {
+    public synchronized void announceArrival() {
     	GenericIO.writelnString("Plane reached its destination");
     	flightNum++;
     	repos.print("\nFlight " + flightNum + ": arrived.");

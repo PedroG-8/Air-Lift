@@ -5,7 +5,7 @@ import sharedRegions.*;
 /**
  *   Pilot thread.
  *
- *   It simulates the barber life cycle.
+ *   It simulates the pilot life cycle.
  */
 
 public class Pilot extends Thread
@@ -93,7 +93,7 @@ public class Pilot extends Thread
 		   departAirport.waitForAllInBoard();
 		   plane.flyToDestinationPoint();
 		   flyingToDestination();
-		   plane.anounceArrival();
+		   plane.announceArrival();
 		   destAirport.flyToDeparturePoint();
 		   
 		   flyingBack();

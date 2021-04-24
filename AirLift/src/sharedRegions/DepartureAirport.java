@@ -92,7 +92,7 @@ public class DepartureAirport {
     private boolean informPilot = false;
 	
     /**
-     *  Departure airport shop instantiation.
+     *  Departure airport instantiation.
      *
      *    @param repos reference to the general repository
      */
