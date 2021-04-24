@@ -1,40 +1,49 @@
 package entities;
 
- import genclass.GenericIO;
 import sharedRegions.*;
 
 /**
- *   Barber thread.
+ *   Pilot thread.
  *
  *   It simulates the barber life cycle.
- *   Static solution.
  */
 
 public class Pilot extends Thread
 {
 
   /**
-   *  Barber state.
+   *  Pilot state.
    */
 
    private int pilotState;
 
   /**
-   *  Reference to the departure airport.
+   *    Reference to the departure airport.
    */
 
    private final DepartureAirport departAirport;
+   
+   /**
+    * 	Reference to the plane.
+    */
+   
    private final Plane plane;
+   
+   /**
+    * 	Reference to the destination airport.
+    */
+   
    private final DestinationAirport destAirport;
-//   private final DestinationAirport departAirport;
-  /**
-   *   Instantiation of a barber thread.
-   *
-   *     @param name thread name
-   *     @param barberId barber id
-   *     @param bShop reference to the barber shop
-   */
 
+   /**
+    * 	Instantiation of the hostess thread. 	
+    * 
+    * 	@param name thread name
+    * 	@param departAirport reference to the Departure Airport
+    * 	@param plane reference to the plane
+    * 	@param destAirport reference to the Destination Airport
+    */
+   
    public Pilot (String name, DepartureAirport departAirport, Plane plane, DestinationAirport destAirport)
    {
       super (name);
@@ -45,12 +54,10 @@ public class Pilot extends Thread
       System.out.println("Pilot created");
    }
 
-  
-
   /**
-   *   Set barber state.
+   *   Set pilot state.
    *
-   *     @param state new barber state
+   *     @param state new pilot state
    */
 
    public void setPilotState (int state)
@@ -59,9 +66,9 @@ public class Pilot extends Thread
    }
 
   /**
-   *   Get barber state.
+   *   Get pilot state.
    *
-   *     @return barber state
+   *     @return pilot state
    */
 
    public int getPilotState ()
@@ -70,53 +77,32 @@ public class Pilot extends Thread
    }
 
   /**
-   *   Life cycle of the barber.
+   *   Life cycle of the pilot.
    */
-   
-   
-   
    
    @Override
    public void run() {
 	   
-	   while(true){
+	   while(true) {
 		   departAirport.parkAtTransferGate();
 		   if (departAirport.allPassengLeft()) {
-			   GenericIO.writelnString("FINITO");
 			   break;
 		   }
 		   preparingForBoarding();
 		   departAirport.informPlaneReadyForBoarding();
 		   departAirport.waitForAllInBoard();
-//		   if (departAirport.allPassengLeft()) {
-//			   return;
-//		   }
 		   plane.flyToDestinationPoint();
 		   flyingToDestination();
 		   plane.anounceArrival();
 		   destAirport.flyToDeparturePoint();
 		   
-		   waitAbit();
+		   flyingBack();
 	   }
    }
 
-//   @Override
-//   public void run ()
-//   {
-//      int customerId;                                      // customer id
-//      boolean endOp;                                       // flag signaling end of operations
-//
-//      while (true)
-//      { endOp = bShop.goToSleep ();                        // the barber sleeps while waiting for a customer to service
-//        if (endOp) break;                                  // check for end of operations
-//        customerId = bShop.callACustomer ();               // the barber has waken up and calls next customer
-//        cutHair ();                                        // the barber cuts the customer hair
-//        bShop.receivePayment (customerId);                 // the barber finishes his service and receives payment for it
-//      }
-//   }
 
   /**
-   *  Cutting the customer hair.
+   *  Flying to destination.
    *
    *  Internal operation.
    */
@@ -129,13 +115,25 @@ public class Pilot extends Thread
       catch (InterruptedException e) {}
    }
    
-   private void waitAbit()
+   /**
+    *  Flying back to departure.
+    *
+    *  Internal operation.
+    */
+   
+   private void flyingBack()
    {
       try
       { sleep ((long) (1 + 100 * Math.random ()));
       }
       catch (InterruptedException e) {}
    }
+   
+   /**
+    *  Preparing for boarding.
+    *
+    *  Internal operation.
+    */
    
    private void preparingForBoarding()
    {

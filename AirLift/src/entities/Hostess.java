@@ -7,7 +7,6 @@ import sharedRegions.DepartureAirport;
  *   Hostess thread.
  *
  *   It simulates the hostess life cycle.
- *   Static solution.
  */
 
 public class Hostess extends Thread {
