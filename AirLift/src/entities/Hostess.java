@@ -79,6 +79,5 @@ public class Hostess extends Thread {
 			   break;
 		   }
 	   }
-	   GenericIO.writelnString("Hostess should terminate");
    }
 }

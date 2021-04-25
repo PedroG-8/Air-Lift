@@ -85,15 +85,10 @@ public class Plane {
 			onPlane.write(passengerId);
 			flightPasseng++;
 		} catch(Exception e) {
-			GenericIO.writelnString ("Erroor in FIFO: " + e.getMessage ());
+			GenericIO.writelnString ("Error in FIFO: " + e.getMessage ());
 		}
 		GenericIO.writelnString("Passenger " + passengerId + " is now on the plane");
 		notifyAll();
-		while (!atDestination) {
-	    	try {
-	    		wait();
-	    	} catch(InterruptedException e) {}
-	    }
 	}
     
     /**
@@ -130,6 +125,20 @@ public class Plane {
 			} catch(Exception e) {}
 		}
 		GenericIO.writelnString("All passengers left!");
+    }
+    
+    /**
+	 *  Operation wait for end of flight
+	 *  
+	 *  It is called by the passenger after entering the plane to wait for the end of the flight.
+	 */
+    
+    public synchronized void waitForEndOfFlight() {
+    	while (!atDestination) {
+	    	try {
+	    		wait();
+	    	} catch(InterruptedException e) {}
+	    }
     }
     
     /**

@@ -26,50 +26,50 @@ public class GeneralRepos {
 	   */
 
 	   private final int [] hostessState;
-	   
+
 	   /**
 		*  State of the pilot.
 		*/
-	   
+
 	   private final int [] pilotState;
-	   
+
 	   /**
 		*  Number of passengers in queue
 		*/
-	   
+
 	   private int InQ = 0;
-	   
+
 	   /**
 		*  Number of passengers in flight
 		*/
-	   
+
 	   private int InF = 0;
-	   
+
 	   /**
 		*  Number of passengers that have arrived
 		*/
-	   
+
 	   private int PTAL = 0;
-	   
+
 	   /**
 		*  Flight number.
 		*/
-	   
+
 	   private int flightNum = 0;
-	   
+
 	   /**
 		*  Array with information to pass to the repository
 		*/
-	   
+
 	   private int [] flightInfo = new int[5];
 
 	   /**
 	    *   Instantiation of a general repository object.
 	    *
 	    *   @param logFileName name of the logging file
-	    *     
+	    *
 	    */
- 
+
 	   public GeneralRepos (String logFileName)
 	   {
 	      if ((logFileName == null) || Objects.equals (logFileName, ""))
@@ -78,15 +78,15 @@ public class GeneralRepos {
 	      passengerStates = new int [SimulPar.K];
 	      for (int i = 0; i < SimulPar.K; i++)
 	    	  passengerStates[i] = PassengerStates.GOINGTOAIRPORT;
-	      
+
 	      hostessState = new int [SimulPar.H];
 	      hostessState[0] = HostessStates.WAITFORFLIGHT;
-	      
+
 	      pilotState = new int [SimulPar.P];
 	      pilotState[0] = PilotStates.ATTRANSFERGATE;
 	      reportInitialStatus ();
 	   }
-	   
+
 	   /**
 	    *   Set passenger state.
 	    *
@@ -111,7 +111,7 @@ public class GeneralRepos {
 	    	hostessState[0] = state;
 	    	reportStatus ();
 	    }
-	    
+
 	    /**
 	     *   Set pilot state.
 	     *
@@ -192,7 +192,7 @@ public class GeneralRepos {
 	          { GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
 	            System.exit (1);
 	          }
-	       
+
 	       switch (pilotState[0])
 	         { case PilotStates.ATTRANSFERGATE:  lineStatus += "ATRG ";
 	                                              break;
@@ -207,7 +207,7 @@ public class GeneralRepos {
 	           case PilotStates.FLYINGBACK:    lineStatus += "FLBK ";
                								      break;
 	         }
-	       
+
 	       switch (hostessState[0])
 	         { case HostessStates.WAITFORFLIGHT:  lineStatus += " WTFL ";
 	                                              break;
@@ -218,70 +218,70 @@ public class GeneralRepos {
 	           case HostessStates.READYTOFLY:    lineStatus += " RDTF ";
 	                                              break;
 	         }
-	       
+
 	       for (int i = 0; i < SimulPar.K; i++)
 	         switch (passengerStates[i])
 	         { case PassengerStates.GOINGTOAIRPORT:   lineStatus += " GTAP ";
 	                                         break;
 	           case PassengerStates.INQUEUE: 	  lineStatus += " INQE ";
 	                                         break;
-	                                         
+
 	           case PassengerStates.INFLIGHT: 	lineStatus += " INFL ";
 	           								break;
 	           case PassengerStates.ATDESTINATION: 	lineStatus += " ATDS ";
 					break;
 	         }
-	       
+
 	       lineStatus += "  " + InQ + "    " + InF + "    " + PTAL;
-	         
+
 	       log.writelnString (lineStatus);
 	       if (!log.close ())
 	       { GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
            		System.exit (1);
 	       }
 	    }
-	    
-	    
+
+
 	    /**
 	     * Write any text to the logg file
-	     * 
+	     *
 	     * @param toPrint text to be printed on the logg file
 	     */
-	    
+
 	    public synchronized void print(String toPrint) {
-	    	
+
 	    	TextFile log = new TextFile ();                      // instantiation of a text file handler
 
 	    	if (!log.openForAppending (".", logFileName))
-	    	{ 
+	    	{
 	    		GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
 	            System.exit (1);
 	    	}
-		       
+
 	    	log.writelnString (toPrint);
 	    	if (!log.close ())
-	    	{ 
+	    	{
 	    		GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 	            System.exit (1);
 	    	}
 	    }
-	    
+
 	    /**
 	     * Write last status of the flight
 	     * Air lift sum up
 	     */
-	    
+
 	    public synchronized void printFinal() {
 	    	TextFile log = new TextFile ();                      // instantiation of a text file handler
 
 	    	if (!log.openForAppending (".", logFileName))
-	    	{ 
+	    	{
 	    		GenericIO.writelnString ("The operation of opening for appending the file " + logFileName + " failed!");
 	            System.exit (1);
 	    	}
-		       
+
 	    	log.writelnString ("\nAirlift sum up:");
-	    	
+
 	    	int i = 1;
 	    	for (int numP : flightInfo) {
 	    		if(numP != 0) {
@@ -289,26 +289,26 @@ public class GeneralRepos {
 					i++;
 	    		}
 			}
-	    	
+
 	    	if (!log.close ())
-	    	{ 
+	    	{
 	    		GenericIO.writelnString ("The operation of closing the file " + logFileName + " failed!");
 	            System.exit (1);
 	    	}
 	    }
-	    
+
 	    /**
 	     * Increases the number of passengers in the queue
 	     */
-	    
+
 	    public void addToQ() {
 	    	this.InQ += 1;
 	    }
-	    
+
 	    /**
 	     * Decreases the number of passengers in the queue
 	     */
-	    
+
 	    public void removeFromQ() {
 	    	this.InQ -= 1;
 	    }
@@ -316,15 +316,15 @@ public class GeneralRepos {
 	    /**
 	     * Increases the number of passengers in flight
 	     */
-	    
+
 	    public void addToF() {
 	    	this.InF += 1;
 	    }
-	    
+
 	    /**
 	     * Decreases the number of passengers in flight
 	     */
-	    
+
 	    public void removeFromF() {
 	    	this.InF -= 1;
 	    }
@@ -332,25 +332,25 @@ public class GeneralRepos {
 	    /**
 	     * Increases the number of passengers that have arrived
 	     */
-	    
+
 	    public void addToTotal() {
 	    	this.PTAL += 1;
 	    }
-	    
+
 	    /**
 	     * @return total of passengers that have arrived
 	     */
-	    
+
 	    public int getTotal() {
 	    	return PTAL;
 	    }
-	    
+
 	    /**
 	     * Updates the flight information
-	     * 
+	     *
 	     * @param passengNum number of passengers
 	     */
-	    
+
 	    public void updateFlightInfo(int passengNum) {
 	    	System.out.println(flightNum);
 	    	flightInfo[this.flightNum] = passengNum;

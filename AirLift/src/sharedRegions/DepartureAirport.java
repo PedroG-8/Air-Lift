@@ -165,12 +165,10 @@ public class DepartureAirport {
 		
 		notifyAll();
 		
-		System.out.println("Entra no waitForAllInBoard");
 		while (!informPilot)
 		{
         	try
 	        { 
-        		GenericIO.writelnString("Pilot is sleeping!");
         		wait ();
 	        }
 	        catch (InterruptedException e) {}
@@ -315,8 +313,6 @@ public class DepartureAirport {
 			
 		passengerId = ((Passenger) Thread.currentThread()).getPassengerId (); 
 	    passenger[passengerId] = (Passenger) Thread.currentThread();
-			   
-	    GenericIO.writelnString(passengerId + " - Showing documents!");
 	    
 	    documentsShowed[passengerId] = true;
 	    notifyAll();
@@ -353,8 +349,7 @@ public class DepartureAirport {
 		repos.setHostessState(((Hostess) Thread.currentThread()).getHostessState ());
 		remainingPassengers--;
 
-		System.out.println("Remaining passengers: " + remainingPassengers);
-		System.out.println("Last FLight: " + lastFlight);
+		GenericIO.writelnString("Remaining passengers: " + remainingPassengers);
 		GenericIO.writelnString("Checking passenger " + passengerID + " documents!");
 		
 		repos.addToF();
@@ -426,7 +421,6 @@ public class DepartureAirport {
 	 */
 	
 	public synchronized boolean allPassengLeft() {
-		GenericIO.writelnString("Missing " + remainingPassengers + " passengers!!");
 		
 		if (remainingPassengers == 0) {
 			notifyAll();
