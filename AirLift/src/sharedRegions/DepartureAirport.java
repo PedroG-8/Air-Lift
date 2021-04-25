@@ -5,6 +5,10 @@ import entities.*;
 import genclass.GenericIO;
 import main.SimulPar;
 
+/**
+ * Definition of the Departure Airport
+ *
+ */
 public class DepartureAirport {
 
 	/**
@@ -328,8 +332,9 @@ public class DepartureAirport {
 	 *
 	 *  It is called by the hostess when she checks the passenger's documents, 
 	 *  and also makes sure it's the correct passenger.
+	 *
+	 * @param passengerID id of the passenger
 	 */
-	
 	public synchronized void checkDocuments(int passengerID) {
 		
 		while (!documentsShowed[passengerID] || actualId != passengerID)

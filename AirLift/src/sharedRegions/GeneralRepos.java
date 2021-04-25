@@ -7,6 +7,11 @@ import genclass.GenericIO;
 import genclass.TextFile;
 import main.SimulPar;
 
+/**
+ * Definition of the Repository
+ *
+ */
+
 public class GeneralRepos {
 
 	  /**

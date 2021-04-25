@@ -4,6 +4,11 @@ import entities.*;
 import genclass.GenericIO;
 import main.SimulPar;
 
+/**
+ * Definition of the Destination Airport
+ *
+ */
+
 public class DestinationAirport {
 
 	/**

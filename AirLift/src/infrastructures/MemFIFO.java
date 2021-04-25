@@ -86,6 +86,12 @@ public class MemFIFO<R> extends MemObject<R>
      return val;
    }
    
+   /**
+    * FIFO retrieval without removing any object
+   * 
+ * @return first parametric object that was written
+ * @throws MemException when the FIFO is empty
+ */
    public R readNotTake() throws MemException {
 	   if (!empty)
 		   return mem[outPnt];

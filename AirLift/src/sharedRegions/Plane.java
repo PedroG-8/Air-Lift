@@ -5,6 +5,11 @@ import genclass.GenericIO;
 import infrastructures.*;
 import main.*;
 
+/**
+ * Definition of the Plane
+ *
+ */
+
 public class Plane {
 	   
 	/**
