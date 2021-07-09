@@ -1,5 +1,13 @@
-# Air-Lift
-## Simulator of the life cycle of the pilot, hostess and passengers in a flight from one airport to another made in Java
+# Air Lift
+
+## Application in Java that simulates the life cycle of the pilot, hostess and passengers in a flight from one airport to another.
+
+Features:
+- Individual threads for each entity
+- Three shared regions (Departure airport, plane and destination airport)
+- Dynamic number of passengers and flight capacity
+
+Final grade: 16/16
 
 Developed with:
 
