@@ -6,6 +6,7 @@ Features:
 - Individual threads for each entity
 - Three shared regions (Departure airport, plane and destination airport)
 - Dynamic number of passengers and flight capacity
+- Diagram of the all interaction
 
 Final grade: 16/16
 
